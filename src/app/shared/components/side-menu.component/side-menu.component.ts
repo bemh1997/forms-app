@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import reactiveRoutes from '../../../reactive/reactive.routes';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
 
 interface MenuItem {
   route: string;
