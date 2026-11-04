@@ -28,7 +28,7 @@ import {
 export class BasicPageComponent {
   formBuilder = inject(FormBuilder);
 
-  myForm = this.formBuilder.group({
+  myForm: FormGroup = this.formBuilder.group({
     name: [
       '' /**Tipo de dato del formulario */,
       [
@@ -43,6 +43,29 @@ export class BasicPageComponent {
       [Validators.required, Validators.min(0)],
     ],
   });
+
+  isValidField(fieldName: string): boolean | null {
+    return !!this.myForm.controls[fieldName].errors;
+  }
+
+  getFieldError(fieldName: string): string | null {
+    if (!this.myForm.controls[fieldName]) return null;
+    const errors =
+      this.myForm.controls[fieldName].errors ?? {};
+
+    for (const key of Object.keys(errors)) {
+      switch (key) {
+        case 'required':
+          return 'Este campo es requerido';
+        case 'minlength':
+          return `Mínimo de ${errors['minlength'].requiredLength} caracteres`;
+        case 'min':
+          return `Valor mínmo de ${errors['min'].min}`;
+      }
+    }
+
+    return null;
+  }
 
   /** Unicamente con FormGroup y FormControl
    * myForm = new FormGroup({
