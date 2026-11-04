@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { FormUtils } from '../../../utils/form-utils';
 
 /** Con FormGruopu suponinendo que no existe formBuilder
  * pasa que se con solo el primer nivel de identacion ya se complica.
@@ -26,8 +27,8 @@ import {
   templateUrl: './basic-page.component.html',
 })
 export class BasicPageComponent {
-  formBuilder = inject(FormBuilder);
-
+  private formBuilder = inject(FormBuilder);
+  formUtils = FormUtils;
   myForm: FormGroup = this.formBuilder.group({
     name: [
       '' /**Tipo de dato del formulario */,
@@ -44,32 +45,6 @@ export class BasicPageComponent {
     ],
   });
 
-  isValidField(fieldName: string): boolean | null {
-    return (
-      this.myForm.controls[fieldName].errors &&
-      this.myForm.controls[fieldName].touched
-    );
-  }
-
-  getFieldError(fieldName: string): string | null {
-    if (!this.myForm.controls[fieldName]) return null;
-    const errors =
-      this.myForm.controls[fieldName].errors ?? {};
-
-    for (const key of Object.keys(errors)) {
-      switch (key) {
-        case 'required':
-          return 'Este campo es requerido';
-        case 'minlength':
-          return `Mínimo de ${errors['minlength'].requiredLength} caracteres`;
-        case 'min':
-          return `Valor mínmo de ${errors['min'].min}`;
-      }
-    }
-
-    return null;
-  }
-
   onSubmit() {
     if (this.myForm.invalid) {
       this.myForm.markAllAsTouched();
@@ -83,6 +58,34 @@ export class BasicPageComponent {
     });
   }
 
+  // ----------------- Se movió a utils para ser reutilizable --------------------------
+  // isValidField(fieldName: string): boolean | null {
+  //   return (
+  //     this.myForm.controls[fieldName].errors &&
+  //     this.myForm.controls[fieldName].touched
+  //   );
+  // }
+
+  // getFieldError(fieldName: string): string | null {
+  //   if (!this.myForm.controls[fieldName]) return null;
+  //   const errors =
+  //     this.myForm.controls[fieldName].errors ?? {};
+
+  //   for (const key of Object.keys(errors)) {
+  //     switch (key) {
+  //       case 'required':
+  //         return 'Este campo es requerido';
+  //       case 'minlength':
+  //         return `Mínimo de ${errors['minlength'].requiredLength} caracteres`;
+  //       case 'min':
+  //         return `Valor mínmo de ${errors['min'].min}`;
+  //     }
+  //   }
+
+  //   return null;
+  // }
+
+  // ----------------- FormGroup y FormControl --------------------------
   /** Unicamente con FormGroup y FormControl
    * myForm = new FormGroup({
    *  name: new FormControl('',[],[]),
