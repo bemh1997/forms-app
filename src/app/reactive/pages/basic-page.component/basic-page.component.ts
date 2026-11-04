@@ -5,6 +5,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 
 /** Con FormGruopu suponinendo que no existe formBuilder
@@ -30,11 +31,17 @@ export class BasicPageComponent {
   myForm = this.formBuilder.group({
     name: [
       '' /**Tipo de dato del formulario */,
-      [] /**Validadores síncronos */,
+      [
+        Validators.required,
+        Validators.minLength(3),
+      ] /**Validadores síncronos */,
       [] /**Validadores asíncronos */,
     ],
-    price: [0],
-    inStorage: [0],
+    price: [0, [Validators.required, Validators.min(10)]],
+    inStorage: [
+      0,
+      [Validators.required, Validators.min(0)],
+    ],
   });
 
   /** Unicamente con FormGroup y FormControl
