@@ -6,6 +6,7 @@
     <form
       autocomplete="off"
       [formGroup]="myForm"
+      (ngSubmit)="onSubmit()"
     >
       <!-- Campo de producto -->
       <div class="mb-3 row">
