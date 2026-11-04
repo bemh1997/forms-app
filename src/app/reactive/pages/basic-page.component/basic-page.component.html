@@ -3,17 +3,28 @@
 
 <div class="row">
   <div class="col">
-    <form autocomplete="off">
+    <form
+      autocomplete="off"
+      [formGroup]="myForm"
+      (ngSubmit)="onSubmit()"
+    >
       <!-- Campo de producto -->
       <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">Producto</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" placeholder="Nombre del producto" />
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Nombre del producto"
+            formControlName="name"
+          />
 
-          <span class="form-text text-danger">
-            <!-- Debe de ser de 3 letras -->
-            error message
-          </span>
+          @if (formUtils.isValidField(myForm, 'name')) {
+            <span class="form-text text-danger">
+              <!-- Debe de ser de 3 letras -->
+              {{ formUtils.getFieldError(myForm, 'name') }}
+            </span>
+          }
         </div>
       </div>
 
@@ -21,8 +32,18 @@
       <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">Precio</label>
         <div class="col-sm-9">
-          <input type="number" class="form-control" placeholder="Precio del producto" />
-          <span class="form-text text-danger"> El precio debe de ser 0 o mayor </span>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Precio del producto"
+            formControlName="price"
+          />
+          @if (formUtils.isValidField(myForm, 'price')) {
+            <span class="form-text text-danger">
+              <!-- Debe de ser de 3 letras -->
+              {{ formUtils.getFieldError(myForm, 'price') }}
+            </span>
+          }
         </div>
       </div>
 
@@ -30,15 +51,30 @@
       <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">Existencias</label>
         <div class="col-sm-9">
-          <input type="number" class="form-control" placeholder="Existencias del producto" />
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Existencias del producto"
+            formControlName="inStorage"
+          />
 
-          <span class="form-text text-danger"> Las existencias deben de ser 0 o mayor </span>
+          @if (formUtils.isValidField(myForm, 'inStorage')) {
+            <span class="form-text text-danger">
+              <!-- Debe de ser de 3 letras -->
+              {{ formUtils.getFieldError(myForm, 'inStorage') }}
+            </span>
+          }
         </div>
       </div>
 
       <div class="row">
         <div class="col">
-          <button type="submit" class="btn btn-primary float-end">Guardar</button>
+          <button
+            type="submit"
+            class="btn btn-primary float-end"
+          >
+            Guardar
+          </button>
         </div>
       </div>
     </form>
@@ -48,76 +84,30 @@
 <div class="row">
   <div class="col">
     <span>Valid</span>
-    <pre>{{ 'objeto' | json }}</pre>
+    <pre>{{ myForm.valid | json }}</pre>
 
     <span>Pristine</span>
-    <pre>{{ 'objeto' | json }}</pre>
+    <pre>{{ myForm.pristine | json }}</pre>
 
     <span>Touched</span>
-    <pre>{{ 'objeto' | json }}</pre>
+    <pre>{{ myForm.touched | json }}</pre>
 
     <span>Value</span>
-    <pre>{{ 'objeto' | json }}</pre>
+    <pre>{{ myForm.value | json }}</pre>
+
+    <span>Errores en name</span>
+    <pre>{{ myForm.controls['name'].errors | json }}</pre>
+
+    <span>Errores en price</span>
+    <pre>{{ myForm.controls['price'].errors | json }}</pre>
+
+    <span>Errores en inStorage</span>
+    <pre>{{ myForm.controls['inStorage'].errors | json }}</pre>
 
     <span>Precio</span>
-    <pre>{{ 'objeto' | json }}</pre>
+    <pre>{{ myForm.controls['price'].value | json }}</pre>
 
     <span>Producto</span>
-    <pre>{{ 'objeto' | json }}</pre>
+    <pre>{{ myForm.controls['name'].value | json }}</pre>
   </div>
 </div>
-country-page.component.html
-<h1 class="mt-3">Selectores anidados</h1>
-<hr />
-
-<form>
-  <!-- Region -->
-  <div class="row mb-3">
-    <div class="col">
-      <label class="form-label">Continente:</label>
-      <select formControlName="region" class="form-control">
-        <option value="">-- Seleccione Continente --</option>
-
-        <!-- <option [value]="region">
-          {{ region }}
-        </option> -->
-      </select>
-    </div>
-  </div>
-
-  <!-- Countries -->
-
-  <div class="row mb-3">
-    <div class="col">
-      <label class="form-label">País:</label>
-      <select formControlName="country" class="form-control">
-        <option value="">-- Seleccione País --</option>
-
-        <!-- <option [value]="country.cca3">
-          {{ country.name }}
-        </option> -->
-      </select>
-    </div>
-  </div>
-
-  <!-- Countries -->
-
-  <div class="row mb-3">
-    <div class="col">
-      <label class="form-label">Fronteras:</label>
-      <select formControlName="border" class="form-control">
-        <option value="">-- Seleccione la frontera --</option>
-
-        <!-- <option [value]="country.cca3">
-          {{ country.name }}
-        </option> -->
-      </select>
-    </div>
-  </div>
-</form>
-
-<h3>Formulario</h3>
-<code>
-  <!-- {{ 'myForm.value' | json }} -->
-</code>
-<p>is form valid: {{ 'myForm.valid' }}</p>

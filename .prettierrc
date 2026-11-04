@@ -1,11 +1,19 @@
 {
-  "printWidth": 100,
+  "printWidth": 80,
+  "singleAttributePerLine": true,
+  "htmlWhitespaceSensitivity": "ignore",
   "singleQuote": true,
   "overrides": [
     {
       "files": "*.html",
       "options": {
         "parser": "angular"
+      }
+    },
+    {
+      "files": "*.ts",
+      "options": {
+        "printWidth": 60
       }
     }
   ]
